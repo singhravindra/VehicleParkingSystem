@@ -15,9 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@ComponentScan
-@Entity
-// @Table(name="VehicleEntry")																				
+@ComponentScan																
 public class VehicleEntry implements Serializable{
 
 	/**
@@ -25,9 +23,8 @@ public class VehicleEntry implements Serializable{
 	 */
 	private static final long serialVersionUID = -7283494808429454206L;
 
-	@Id
-	@GeneratedValue
-	private Integer id;
+	@Max(value = 100, message = "The maximum building capacity is of 100 parking slots..")
+	private Integer slot_id;
 
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date in_time;
@@ -37,23 +34,20 @@ public class VehicleEntry implements Serializable{
 	private Integer parking_fee;
 	private String vehicle_number;
 	private String availability;
-	private String vehicleType;
+	private VehicleType vehicleType;
 	private Boolean entry_gate;
 	private Boolean exit_gate;
-
-	@SequenceGenerator(name="slot_id",initialValue = 1, allocationSize=100)
-	@Max(value = 100, message = "The maximum building capacity is of 100 parking slots..")
-	private Integer slot_id;
 
 	public VehicleEntry() {
 
 	}
-
-	public VehicleEntry(Integer id, Date in_time, Date out_time, Integer parking_fee, String vehicle_number,
-			String availability, String vehicleType,  Boolean entry_gate, Boolean exit_gate,
-			@Max(value = 100, message = "The maximum building capacity is of 100 parking slots..") Integer slot_id) {
+	
+	public VehicleEntry(
+			@Max(value = 100, message = "The maximum building capacity is of 100 parking slots..") Integer slot_id,
+			Date in_time, Date out_time, Integer parking_fee, String vehicle_number, String availability,
+			VehicleType vehicleType, Boolean entry_gate, Boolean exit_gate) {
 		super();
-		this.id = id;
+		this.slot_id = slot_id;
 		this.in_time = in_time;
 		this.out_time = out_time;
 		this.parking_fee = parking_fee;
@@ -62,18 +56,8 @@ public class VehicleEntry implements Serializable{
 		this.vehicleType = vehicleType;
 		this.entry_gate = entry_gate;
 		this.exit_gate = exit_gate;
-		this.slot_id = slot_id;
 	}
 
-
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Date getIn_time() {
 		return in_time;
@@ -115,11 +99,11 @@ public class VehicleEntry implements Serializable{
 		this.availability = availability;
 	}
 
-	public String getVehicleType() {
+	public VehicleType getVehicleType() {
 		return vehicleType;
 	}
 
-	public void setVehicleType(String vehicleType) {
+	public void setVehicleType(VehicleType vehicleType) {
 		this.vehicleType = vehicleType;
 	}
 
@@ -150,11 +134,11 @@ public class VehicleEntry implements Serializable{
 
 	@Override
 	public String toString() {
-		return "VehicleEntry [id=" + id + ", in_time=" + in_time + ", out_time=" + out_time + ", parking_fee="
+		return "VehicleEntry [slot_id=" + slot_id + ", in_time=" + in_time + ", out_time=" + out_time + ", parking_fee="
 				+ parking_fee + ", vehicle_number=" + vehicle_number + ", availability=" + availability
-				+ ", vehicleType=" + vehicleType +  ", entry_gate="
-				+ entry_gate + ", exit_gate=" + exit_gate + ", slot_id=" + slot_id + "]";
+				+ ", vehicleType=" + vehicleType + ", entry_gate=" + entry_gate + ", exit_gate=" + exit_gate + "]";
 	}
+
 
 
 
